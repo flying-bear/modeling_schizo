@@ -1,23 +1,33 @@
 import lzma
+
+from datetime import datetime
 from string import punctuation as punct
 from string import ascii_letters as latin
+punct += '»«'
 
-# reading tsv from archive into a one-sentence lemm \n separated file
+def get_the_fucking_time():
+    h, m, s = str(datetime.now().time()).split(':')
+    return 3600*int(h)+60*int(m)+float(s)
+
 with lzma.open('ruwac-parsed.out.xz', mode='rt', encoding='utf-8') as f:
     with open('text.txt', mode='w', encoding='utf-8') as t:
-        for line in f.readlines(10000):
+        current = []
+        start_time = get_the_fucking_time()
+        for line_number, line in enumerate(f):
+            if line_number % 1000000 == 0:
+                work_time = get_the_fucking_time()-start_time
+                print(line_number, datetime.now())
+                if line_number != 0 and work_time != 0:
+                    speed = line_number/work_time
+                    print((1600000000 - line_number)/(speed*3600), '- expected worktime in hours')
             l = line.split('\t')
             if len(l) == 7:
                 lemm = l[3]
                 sent = l[1]
                 if sent == 'SENT':
-                    print('\n', file=t, end='')
+                    if set(latin).intersection(set(''.join(current))) == set():
+                        current.append('\n')
+                        print(' '.join(current), file=t, end='')
+                    current = []
                 elif lemm not in punct:
-                    print(lemm, file=t, end=' ')
-
-# getting rid of sentences with latin characters
-with open('text.txt', mode='r', encoding='utf-8') as t:
-    with open('clean.txt', mode='w', encoding='utf-8') as c:
-        for line in t.readlines():
-            if set(latin).intersection(set(line)) == set():
-                print(line, file=c, end='')
+                    current.append(lemm)
