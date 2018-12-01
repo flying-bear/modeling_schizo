@@ -6,7 +6,7 @@ from string import ascii_letters as latin
 punct += '»«'
 
 def get_the_fucking_time():
-    h, m, s = str(datetime.now().time()).split(':')
+    h, m, s = str(datetime.now().time().split(':')
     return 3600*int(h)+60*int(m)+float(s)
 
 with lzma.open('ruwac-parsed.out.xz', mode='rt', encoding='utf-8') as f:
@@ -14,11 +14,12 @@ with lzma.open('ruwac-parsed.out.xz', mode='rt', encoding='utf-8') as f:
         current = []
         start_time = get_the_fucking_time()
         for line_number, line in enumerate(f):
-            if line_number % 1000000 == 0:
+            if line_number % 10000000 == 0:
                 work_time = get_the_fucking_time()-start_time
-                print(line_number, datetime.now())
+                print(line_number, datetime.now().time())
                 if line_number != 0 and work_time != 0:
                     speed = line_number/work_time
+                    print(speed, '- lines per sec')
                     print((1600000000 - line_number)/(speed*3600), '- expected worktime in hours')
             l = line.split('\t')
             if len(l) == 7:
