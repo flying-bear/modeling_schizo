@@ -1,2 +1,6 @@
 
 ruwac-parsed.out.xz
+
+text.txt
+.ipynb_checkpoints
+*.model
