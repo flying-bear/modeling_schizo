@@ -12,3 +12,4 @@ full.model.wv.vectors.npy
 
 full.model.trainables.syn1neg.npy
 freq.txt
+corpus.txt
