@@ -1,7 +1,6 @@
 
 ruwac-parsed.out.xz
 
-text.txt
 .ipynb_checkpoints
 *.model
 
@@ -12,4 +11,5 @@ full.model.wv.vectors.npy
 
 full.model.trainables.syn1neg.npy
 freq.txt
+
 corpus.txt
