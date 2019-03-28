@@ -13,3 +13,6 @@ full.model.trainables.syn1neg.npy
 freq.txt
 
 corpus.txt
+linghub-gryazanskaya.key
+smal_lsi.model.projection
+*.npy
