@@ -17,8 +17,8 @@ max(interrator_violations[2:6]) ### 2.592975
 min(interrator_violations[2:6]) ### -0.8777664
 # Subjects = 19 
 # Raters = 5 
-agree(interrator_violations[2:6], tolerance = 0.25)   # %-agree = 36.8 
-agree(interrator_violations[2:6], tolerance = 0.5)    # %-agree = 47.4 
-agree(interrator_violations[2:6], tolerance = 1)      # %-agree = 78.9 
-agree(interrator_violations[2:6], tolerance = 1.5)    # %-agree = 94.7 
-agree(interrator_violations[2:6], tolerance = 2)      # %-agree = 100 
+agree(interrator_violations[2:6], tolerance = 0.25)   # 36.8% at 0.25-point tolerance 
+agree(interrator_violations[2:6], tolerance = 0.5)    # 47.4% at 0.5-point tolerance
+agree(interrator_violations[2:6], tolerance = 1)      # 78.9% at 1-point tolerance
+agree(interrator_violations[2:6], tolerance = 1.5)    # 94.7% at 1.5-point tolerance
+agree(interrator_violations[2:6], tolerance = 2)      # 100% at 2-point tolerance

@@ -1,4 +1,7 @@
 library(tidyverse)
+library(ggrepel)
+library(PerformanceAnalytics)
+library(corrplot)
 
 coh_all_measures <- read_csv('all_measures.csv')
 sc <- function(x){scale(x, center=TRUE, scale=TRUE)}
@@ -60,10 +63,11 @@ shapiro.test(coh_all_measures$comp_av_loc_coh) # no, p = 1.094e-05
 cor.test(coh_all_measures$av_lcoh_1, coh_all_measures$comp_av_loc_coh, method = 'spearman')
 # Spearman's rank correlation rho
 # data:  coh_all_measures$av_lcoh_1 and coh_all_measures$comp_av_loc_coh
-# S = 1010, p-value = 0.6413
+# S = 1258, p-value = 0.6728
 # alternative hypothesis: true rho is not equal to 0
 # sample estimates:
-# rho = 0.1140351
+#   rho 
+# -0.1035088 
 
 ### my lcoh vs comp_lcoh
 cor.test(coh_all_measures$av_lcoh4_1, coh_all_measures$comp_av_loc_coh, method = 'spearman')
@@ -109,17 +113,26 @@ qqnorm(coh_all_measures$comp_compl_viol_per_utt)
 qqline(coh_all_measures$comp_compl_viol_per_utt)
 shapiro.test(coh_all_measures$comp_compl_viol_per_utt) # no, p = 0.0001329
 
+coh_all_measures %>% 
+  ggplot(aes(compl_viol_per_utt_reverse, comp_compl_viol_per_utt, label = ID))+
+  geom_smooth(method='lm', linetype = 'dashed', color = 'darkgrey', se = FALSE)+
+  geom_text_repel(aes(color = diagnosis))+
+  geom_point(aes(color = diagnosis))+
+  ggtitle('Correlation between manual and computational measure of violations of completeness')+
+  labs(x = 'reversed manual metric of violations of completeness per utterance',
+       y = 'computational metric of violations of completeness per utterance')
+
 cor.test(coh_all_measures$compl_viol_per_utt_reverse, 
          coh_all_measures$comp_compl_viol_per_utt, method = 'spearman') #TIES AAA
 # ****************************************************************************
 # Pearson's product-moment correlation
-# data:  coh_all_measures$compl_viol_per_utt_reverse and coh_all_measures$comp_compl_viol_per_utt
-# t = 3.6277, df = 17, p-value = 0.00208
-# alternative hypothesis: true correlation is not equal to 0
-# 95 percent confidence interval:
-# 0.294813 0.857497
+# data:  coh_all_measures$compl_viol_per_utt_reverse and 1 - coh_all_measures$comp_compl_viol_per_utt
+# S = 1793.1, p-value = 0.01035
+# alternative hypothesis: true rho is not equal to 0
 # sample estimates:
-# cor = 0.6605678
+#   rho 
+# -0.5729172 
+
 
 ### comment vs meta-comment
 shapiro.test(coh_all_measures$av_comment) # normal, p-value = 0.1876 
@@ -158,6 +171,7 @@ shapiro.test(coh_all_measures$av_comment) # normal, p-value = 0.1876
 hist(coh_all_measures$av_comment)
 qqnorm(coh_all_measures$av_comment)
 boxplot(av_comment~diagnosis, coh_all_measures)
+title('comment per utterance score')
 t.test(av_comment~diagnosis, coh_all_measures)
 # ***********************************************************************************
 # Welch Two Sample t-test
@@ -179,8 +193,25 @@ shapiro.test(coh_all_measures$compl_viol_per_utt_reverse) # not normal, p-value 
 hist(coh_all_measures$compl_viol_per_utt_reverse)
 qqnorm(coh_all_measures$compl_viol_per_utt_reverse)
 boxplot(compl_viol_per_utt_reverse~diagnosis, coh_all_measures)
+title('reversed completeness violation per utterance score')
 wilcox.test(compl_viol_per_utt_reverse~diagnosis, coh_all_measures) #ties
 # Wilcoxon rank sum test with continuity correction
 # data:  compl_viol_per_utt_reverse by diagnosis
 # W = 63, p-value = 0.1423
 # alternative hypothesis: true location shift is not equal to 0
+
+coh_all_measures %>% 
+  mutate(num_utt = as.numeric(num_utt)) -> coh_all_measures
+
+
+
+
+
+
+chart.Correlation(coh_all_measures[3:19], pch=10, method = 'spearman', histogram = FALSE)
+
+# Insignificant correlation are left blank
+res2 <- rcorr(as.matrix(coh_all_measures[3:19]))
+corrplot(res2$r, type="upper", order="hclust", 
+         p.mat = res2$P, sig.level = 0.01, insig = "blank",
+         tl.col = "black", tl.cex = 0.75, method="number", number.cex = 0.65)
