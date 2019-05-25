@@ -7,14 +7,11 @@ library(ggfortify)
 
 coh_all_measures <- read_csv('all_measures.csv')
 
-no_nutt_no_diagnosis <- coh_all_measures[4:19]
-row.names(no_nutt_no_diagnosis) <- coh_all_measures[[1]]
-
 coh_all_measures %>% 
   mutate(diagnosis = ifelse(diagnosis == 1, 'shizo', 'control')) -> coh_all_measures
 
-coh_all_measures %>% 
-  mutate(diagnosis = as.factor(ifelse(diagnosis == 1, 'shizo', 'control'))) -> coh_all_measures
+no_nutt_no_diagnosis <- coh_all_measures[4:19]
+row.names(no_nutt_no_diagnosis) <- coh_all_measures[[1]]
 
 manual <- as.factor(c('manual measure','manual measure','manual measure','manual measure','manual measure',
                      'manual measure','manual measure','manual measure','manual measure','manual measure',
@@ -35,15 +32,21 @@ diagnosis <- as.factor(c('schizo','schizo','schizo','schizo','schizo',
 autoplot(prcomp(no_diagnosis), data = coh_all_measures, 
          colour = 'diagnosis', label = TRUE, label.size = 5,
          loadings = TRUE, loadings.colour = 'blue',
-         loadings.label = TRUE, loadings.label.size = 5)+ ggtitle('Principal Correspondence Analysis using ggfortify, biplot of manual and computer measures of coherence')
+         loadings.label = TRUE, loadings.label.size = 5)+ggtitle('Principal Correspondence Analysis using ggfortify, biplot of manual and computer measures of coherence', )
 
 ### CA using factoextra & FactoMineR
 coh_ca <- CA(no_diagnosis, graph = FALSE)
 fviz_ca_biplot(coh_ca, repel=TRUE, addlabels = TRUE, 
-               col.row=diagnosis, col.col = 'grey', #invisible = 'col', #col.col = manual,
-               title = 'Principal Correspondence Analysis using factoextra & FactoMineR, biplot of manual and computer measures of coherence')#+geom_abline(mapping = NULL, data = NULL, intercept = 0.01, slope = -0.4, color = 'blue', linetype="dashed")
+               col.row=diagnosis, invizible = 'col', # col.col = manual, 
+               title = 'Principal Correspondence Analysis using factoextra & FactoMineR, biplot of manual and computer measures of coherence')+theme(plot.title = element_text(size = 12))
+
 fviz_screeplot(coh_ca, addlabels = TRUE)
-fviz_ca_row(coh_ca, col.row ='red')
+fviz_ca_col(coh_ca, col.col = manual, repel=TRUE,
+            title = 'Principal Correspondence Analysis using factoextra & FactoMineR, biplot of manual and computer measures of coherence')+theme(plot.title = element_text(size = 12))
+fviz_ca_row(coh_ca, col.row = diagnosis, repel=TRUE, addlabels = TRUE,
+            title = 'Principal Correspondence Analysis using factoextra & FactoMineR, biplot of manual and computer measures of coherence')+theme(plot.title = element_text(size = 12))+geom_abline(mapping = NULL, data = NULL, intercept = 0.01, slope = -0.4, color = 'blue', linetype="dashed")
+
+
 
 ### CA using languageR
 corr <- corres.fnc(no_diagnosis)
