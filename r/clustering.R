@@ -7,20 +7,17 @@ library(ggfortify)
 
 coh_all_measures <- read_csv('all_measures.csv')
 
-coh_all_measures %>% 
-  mutate(diagnosis = ifelse(diagnosis == 1, 'shizo', 'control')) -> coh_all_measures
-
-no_nutt_no_diagnosis <- coh_all_measures[4:19]
+no_nutt_no_diagnosis <- coh_all_measures[4:18]
 row.names(no_nutt_no_diagnosis) <- coh_all_measures[[1]]
 
 manual <- as.factor(c('manual measure','manual measure','manual measure','manual measure','manual measure',
                      'manual measure','manual measure','manual measure','manual measure','manual measure',
-                     'manual measure','computed measure','computed measure','computed measure',
+                     'computed measure','computed measure','computed measure',
                      'computed measure','computed measure','computed measure'))
 
 color_diagnosis <- ifelse(coh_all_measures$diagnosis == 'shizo', 'blue','red')
 
-no_diagnosis <- as.data.frame(coh_all_measures[3:19])
+no_diagnosis <- as.data.frame(coh_all_measures[3:18])
 row.names(no_diagnosis) <- coh_all_measures[[1]]
 
 diagnosis <- as.factor(c('schizo','schizo','schizo','schizo','schizo',
@@ -36,10 +33,6 @@ autoplot(prcomp(no_diagnosis), data = coh_all_measures,
 
 ### CA using factoextra & FactoMineR
 coh_ca <- CA(no_diagnosis, graph = FALSE)
-fviz_ca_biplot(coh_ca, repel=TRUE, addlabels = TRUE, 
-               col.row=diagnosis, invizible = 'col', # col.col = manual, 
-               title = 'Principal Correspondence Analysis using factoextra & FactoMineR, biplot of manual and computer measures of coherence')+theme(plot.title = element_text(size = 12))
-
 fviz_screeplot(coh_ca, addlabels = TRUE)
 fviz_ca_col(coh_ca, col.col = manual, repel=TRUE,
             title = 'Principal Correspondence Analysis using factoextra & FactoMineR, biplot of manual and computer measures of coherence')+theme(plot.title = element_text(size = 12))
