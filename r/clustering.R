@@ -10,10 +10,10 @@ coh_all_measures <- read_csv('all_measures.csv')
 no_nutt_no_diagnosis <- coh_all_measures[4:18]
 row.names(no_nutt_no_diagnosis) <- coh_all_measures[[1]]
 
-manual <- as.factor(c('manual measure','manual measure','manual measure','manual measure','manual measure',
+manual <- as.factor(c('manual measure','manual measure','manual measure','manual measure', 'manual measure','manual measure',
                      'manual measure','manual measure','manual measure','manual measure','manual measure',
                      'computed measure','computed measure','computed measure',
-                     'computed measure','computed measure','computed measure'))
+                     'computed measure','computed measure'))
 
 color_diagnosis <- ifelse(coh_all_measures$diagnosis == 'shizo', 'blue','red')
 
