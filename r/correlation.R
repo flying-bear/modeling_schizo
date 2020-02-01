@@ -335,7 +335,7 @@ coh_all_measures %>%
 chart.Correlation(coh_all_measures[3:18], pch=10, method = 'spearman', histogram = FALSE)
 
 # Insignificant correlation are left blank
-res2 <- rcorr(as.matrix(coh_all_measures[3:18])
+res2 <- rcorr(as.matrix(coh_all_measures[3:18]))
 corrplot(res2$r, type="upper", order="hclust", 
          p.mat = res2$P, sig.level = 0.01, insig = "blank",
          tl.col = "black", tl.cex = 0.75, method="number", number.cex = 0.65)

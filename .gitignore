@@ -17,3 +17,5 @@ linghub-gryazanskaya.key
 smal_lsi.model.projection
 *.npy
 word_freq.pickle
+*.Rhistory
+r\.Rhistory
