@@ -1,4 +1,4 @@
-ID,diagnosis,n_utt,compl_viol_per_utt_reverse,glob_coh,loc_coh,dim_coh,dim_sd_person,dim_sd_time,dim_ssd_story,dim_ssd_comment,dim_ssd_meta_comment,dim_sd_switch,auto_glob_coh,auto_control_glob_coh,auto_cum_semi_loc_coh,auto_loc_coh,auto_compl_viol_per_utt_reverse
+ID,diagnosis,n_utt,compl_viol_inverse,glob_coh,loc_coh,dim_coh,dim_sd_person,dim_sd_time,dim_ssd_story,dim_ssd_comment,dim_ssd_meta_comment,dim_sd_switch,auto_glob_coh,auto_control_glob_coh,auto_cum_semi_loc_coh,auto_loc_coh,auto_compl_viol_inverse
 SP-01,shizo,26,1,0.826923077,0.682692308,0.625,0.846153846,0.807692308,0.846153846,0.038461538,0.115384615,0.153846154,0.874448874,0.986189637,0.886720839,0.808710886,0.944218017
 SP-02,shizo,17,0.457142857,0.735294118,0.647058824,0.705882353,0.941176471,0.941176471,0.941176471,0,0.058823529,0.058823529,0.868464248,0.981659794,0.866957099,0.81740831,0.940243172
 SP-03,shizo,20,0.628571429,0.8,0.6125,0.5875,0.7,0.7,0.75,0.1,0.25,0.05,0.871864232,0.98563687,0.8509023,0.771361002,0.938613625
